@@ -8,7 +8,7 @@ const router = require('./routes/index');
 const NotFoundError = require('./errors/not-found-err');
 const errorHandler = require('./errors/errorHandler');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-const { database } = require('./utils/constants');
+const { DATABASE } = require('./utils/constants');
 
 const { PORT = 3001 } = process.env;
 
@@ -16,8 +16,7 @@ const app = express();
 
 app.use(cookieParser());
 
-// const database = NODE_ENV === 'moviesdb' ? JWT_KEY : 'moviesdb-dev';
-mongoose.connect(`mongodb://localhost:27017/${database}`);
+mongoose.connect(`mongodb://localhost:27017/${DATABASE}`);
 
 app.use(express.json());
 
