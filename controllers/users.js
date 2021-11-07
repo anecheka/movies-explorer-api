@@ -6,28 +6,8 @@ const User = require('../models/user');
 const BadRequestError = require('../errors/bad-request-err');
 const ConflictError = require('../errors/conflict-err');
 const UnauthorizedError = require('../errors/unauthorized-err');
-const NotFoundError = require('../errors/not-found-err');
 
 const { NODE_ENV, JWT_KEY } = process.env;
-
-module.exports.doesUserExist = (req, res, next) => {
-  User.findById(req.params.userId)
-    .then((user) => {
-      if (!user) {
-        throw new NotFoundError('Пользователя с таким ID не существует');
-      }
-      next();
-    })
-    .catch(next);
-};
-
-module.exports.getUserById = (req, res, next) => {
-  User.findById(req.params.userId)
-    .then((user) => {
-      res.send(user);
-    })
-    .catch(next);
-};
 
 module.exports.createUser = (req, res, next) => {
   const {
@@ -78,6 +58,8 @@ module.exports.updateUser = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new BadRequestError('Данные неполные или заполнены некорректно'));
+      } else if (err.code === 11000) {
+        next(new ConflictError('Пользователь с таким email уже зарегистрирован'));
       } else {
         next(err);
       }

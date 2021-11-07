@@ -61,7 +61,7 @@ module.exports.deleteMovie = (req, res, next) => {
   Movie.findOne({ movieId: req.params.movieId })
     .then((movie) => {
       if (movie.owner.equals(ownerId)) {
-        movie.deleteOne({ movieId: movie.movieId }, (err) => {
+        movie.deleteOne({ _id: movie._id }, (err) => {
           if (err) {
             next(new InternalServerError('Проблема с удалением карточки фильма'));
           }
@@ -83,7 +83,7 @@ module.exports.getAllMovies = (req, res, next) => {
 };
 
 module.exports.saveMovie = (req, res, next) => {
-  Movie.findByIdAndUpdate(
+  Movie.findOneAndUpdate(
     req.params.movieId,
     { $addToSet: { saved: req.user._id } },
     { new: true },
@@ -93,7 +93,7 @@ module.exports.saveMovie = (req, res, next) => {
 };
 
 module.exports.removeFromSavedMovies = (req, res, next) => {
-  Movie.findByIdAndUpdate(
+  Movie.findOneAndUpdate(
     req.params.movieId,
     { $pull: { saved: req.user._id } },
     { new: true },

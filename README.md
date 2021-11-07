@@ -17,7 +17,7 @@ Express, mongoDB
 URL проекта
 -----------------------------------
 
-Backend: api.cinematheque.nomoredomains.work
+Backend: https://api.cinematheque.nomoredomains.work
 
 История
 ----------------------------------- 

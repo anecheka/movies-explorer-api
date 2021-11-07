@@ -3,8 +3,9 @@ const { celebrate, Joi } = require('celebrate');
 const {
   doesMovieExist, createMovie, getAllMovies, saveMovie, removeFromSavedMovies, deleteMovie,
 } = require('../controllers/movies');
+const auth = require('../middlewares/auth');
 
-router.get('/', getAllMovies);
+router.get('/', auth, getAllMovies);
 
 router.post('/', celebrate({
   body: Joi.object().keys({
@@ -21,27 +22,27 @@ router.post('/', celebrate({
     thumbnail: Joi.string().uri().required(),
   }),
 }),
-createMovie);
+auth, createMovie);
 
 router.delete('/:movieId', celebrate({
   params: Joi.object().keys({
     movieId: Joi.number(),
   }),
 }),
-doesMovieExist, deleteMovie);
+auth, doesMovieExist, deleteMovie);
 
 router.put('/:movieId/saved', celebrate({
   params: Joi.object().keys({
     movieId: Joi.number(),
   }),
 }),
-doesMovieExist, saveMovie);
+auth, doesMovieExist, saveMovie);
 
 router.delete('/:movieId/saved', celebrate({
   params: Joi.object().keys({
     movieId: Joi.number(),
   }),
 }),
-doesMovieExist, removeFromSavedMovies);
+auth, doesMovieExist, removeFromSavedMovies);
 
 module.exports = router;
