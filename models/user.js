@@ -10,7 +10,7 @@ const userSchema = new mongoose.Schema({
     required: true,
     unique: true,
     validate: {
-      validator: validator.isEmail,
+      validator: (value) => validator.isEmail(value),
       message: 'Некорректный формат email',
     },
   },

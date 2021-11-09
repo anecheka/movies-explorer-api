@@ -1,11 +1,13 @@
+const mongoose = require('mongoose');
 const Movie = require('../models/movie');
 const NotFoundError = require('../errors/not-found-err');
 const BadRequestError = require('../errors/bad-request-err');
 const ForbiddenError = require('../errors/forbidden-err');
 const InternalServerError = require('../errors/internal-server-err');
+const ConflictError = require('../errors/conflict-err');
 
 module.exports.doesMovieExist = (req, res, next) => {
-  Movie.findOne({ movieId: req.params.movieId })
+  Movie.findById(req.params.movieId)
     .then((movie) => {
       if (!movie) {
         throw new NotFoundError('Фильма с таким ID не существует');
@@ -13,6 +15,13 @@ module.exports.doesMovieExist = (req, res, next) => {
       next();
     })
     .catch(next);
+};
+
+module.exports.isMovieIdValid = (req, res, next) => {
+  if (!mongoose.isValidObjectId(req.params.movieId)) {
+    throw new BadRequestError('Невалидный ID фильма');
+  }
+  next();
 };
 
 module.exports.createMovie = (req, res, next) => {
@@ -49,16 +58,17 @@ module.exports.createMovie = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new BadRequestError('Данные неполные или заполнены некорректно'));
-      } else {
-        next(err);
+      } if (err.code === 11000) {
+        next(new ConflictError('Фильм с таким movieID уже зарегистрирован'));
       }
+      next(err);
     });
 };
 
 module.exports.deleteMovie = (req, res, next) => {
   const ownerId = req.user._id;
 
-  Movie.findOne({ movieId: req.params.movieId })
+  Movie.findById(req.params.movieId)
     .then((movie) => {
       if (movie.owner.equals(ownerId)) {
         movie.deleteOne({ _id: movie._id }, (err) => {
@@ -79,25 +89,5 @@ module.exports.getAllMovies = (req, res, next) => {
     .then((movie) => {
       res.send({ movie });
     })
-    .catch(next);
-};
-
-module.exports.saveMovie = (req, res, next) => {
-  Movie.findOneAndUpdate(
-    req.params.movieId,
-    { $addToSet: { saved: req.user._id } },
-    { new: true },
-  )
-    .then((movie) => res.send({ movie }))
-    .catch(next);
-};
-
-module.exports.removeFromSavedMovies = (req, res, next) => {
-  Movie.findOneAndUpdate(
-    req.params.movieId,
-    { $pull: { saved: req.user._id } },
-    { new: true },
-  )
-    .then((movie) => res.send({ movie }))
     .catch(next);
 };

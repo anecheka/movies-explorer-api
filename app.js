@@ -16,7 +16,7 @@ const app = express();
 
 app.use(cookieParser());
 
-mongoose.connect(`mongodb://localhost:27017/${DATABASE}`);
+mongoose.connect(DATABASE);
 
 app.use(express.json());
 
@@ -25,10 +25,6 @@ app.use(requestLogger);
 app.use(limiter);
 
 app.use('/', router);
-
-app.use((req, res, next) => {
-  next(new NotFoundError('Запрошенный роут не существует'));
-});
 
 app.use(errorLogger);
 
