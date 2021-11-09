@@ -5,7 +5,6 @@ const cookieParser = require('cookie-parser');
 const { errors } = require('celebrate');
 const { limiter } = require('./middlewares/rate-limiter');
 const router = require('./routes/index');
-const NotFoundError = require('./errors/not-found-err');
 const errorHandler = require('./errors/errorHandler');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { DATABASE } = require('./utils/constants');

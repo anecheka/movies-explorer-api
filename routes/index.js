@@ -6,6 +6,7 @@ const {
   login, createUser, logout,
 } = require('../controllers/users');
 const auth = require('../middlewares/auth');
+const NotFoundError = require('../errors/not-found-err');
 
 router.post('/signin', celebrate({
   body: Joi.object().keys({
