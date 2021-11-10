@@ -4,8 +4,8 @@
   "description": "api for praktikum diploma project",
   "main": "index.js",
   "scripts": {
-    "dev": "NODE_ENV=development nodemon app.js",
-    "start": "NODE_ENV=production node app.js",
+    "dev": "nodemon app.js",
+    "start": "node app.js",
     "lint": "npx eslint ."
   },
   "repository": {
@@ -35,6 +35,7 @@
     "winston": "^3.3.3"
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "eslint": "^7.32.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.25.2",
