@@ -7,9 +7,7 @@ const { limiter } = require('./middlewares/rate-limiter');
 const router = require('./routes/index');
 const errorHandler = require('./errors/errorHandler');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-const { DATABASE } = require('./utils/constants');
-
-const { PORT = 3001 } = process.env;
+const { DATABASE, PORT } = require('./utils/constants');
 
 const app = express();
 
@@ -30,6 +28,10 @@ app.use(errorLogger);
 app.use(errors());
 
 app.use(errorHandler);
+
+if (process.env.NODE_ENV === 'development') {
+  console.log('Код запущен в режиме разработки');
+}
 
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);

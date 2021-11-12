@@ -4,7 +4,7 @@
   "description": "api for praktikum diploma project",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon app.js",
+    "dev": "cross-env NODE_ENV=development nodemon app.js",
     "start": "node app.js",
     "lint": "npx eslint ."
   },
