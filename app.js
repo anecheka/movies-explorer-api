@@ -15,8 +15,6 @@ app.use(cookieParser());
 
 mongoose.connect(DATABASE, {
   useNewUrlParser: true,
-  useCreateIndex: true,
-  useFindAndModify: false,
   useUnifiedTopology: true,
 });
 
