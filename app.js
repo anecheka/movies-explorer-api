@@ -29,6 +29,8 @@ const allowedCors = [
   'http://cinematheque.nomoredomains.work',
   'localhost:3000',
   'http://localhost:3000',
+  'localhost:3002',
+  'http://localhost:3002',
 ];
 
 const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE';

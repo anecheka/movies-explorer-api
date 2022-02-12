@@ -86,8 +86,8 @@ module.exports.deleteMovie = (req, res, next) => {
 
 module.exports.getAllMovies = (req, res, next) => {
   Movie.find({})
-    .then((movie) => {
-      res.send({ movie });
+    .then((movies) => {
+      res.send(movies);
     })
     .catch(next);
 };
