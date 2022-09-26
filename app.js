@@ -25,12 +25,10 @@ app.use(requestLogger);
 app.use(limiter);
 
 const allowedCors = [
-  'https://cinematheque.nomoredomains.work',
-  'http://cinematheque.nomoredomains.work',
+  'https://cinematheque.nomorepartiesxyz.ru',
+  'http://cinematheque.nomorepartiesxyz.ru',
   'localhost:3000',
   'http://localhost:3000',
-  'localhost:3002',
-  'http://localhost:3002',
 ];
 
 const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE';
