@@ -17,10 +17,5 @@ Express, mongoDB
 URL проекта
 -----------------------------------
 
-Backend: https://api.cinematheque.nomoredomains.work
+Backend: api.cinematheque.nomorepartiesxyz.ru
 
-История
------------------------------------ 
-
-* 19.10 начало работы над дипломным проектом
-* 06.11 backend задеплоен и готов к ревью 
