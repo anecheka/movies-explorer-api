@@ -4,7 +4,7 @@ const movieSchema = new mongoose.Schema({
   movieId: {
     type: Number,
     required: true,
-    // index: { unique: true },
+    index: { unique: true },
   },
   country: {
     type: String,
