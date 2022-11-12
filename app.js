@@ -8,6 +8,7 @@ const router = require('./routes/index');
 const errorHandler = require('./errors/errorHandler');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { DATABASE, PORT } = require('./utils/constants');
+const cors = require('cors');
 
 const app = express();
 
@@ -33,24 +34,32 @@ const allowedCors = [
 
 const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE';
 
-app.use((req, res, next) => {
-  const { origin } = req.headers;
-  const { method } = req;
-  const requestHeaders = req.headers['access-control-request-headers'];
+// app.use((req, res, next) => {
+//   const { origin } = req.headers;
+//   const { method } = req;
+//   const requestHeaders = req.headers['access-control-request-headers'];
 
-  if (allowedCors.includes(origin)) {
-    res.header('Access-Control-Allow-Origin', origin);
-    res.header('Access-Control-Allow-Credentials', true);
-  }
+//   if (allowedCors.includes(origin)) {
+//     res.header('Access-Control-Allow-Origin', origin);
+//     res.header('Access-Control-Allow-Credentials', true);
+//   }
 
-  if (method === 'OPTIONS') {
-    res.header('Access-Control-Allow-Methods', DEFAULT_ALLOWED_METHODS);
-    res.header('Access-Control-Allow-Headers', requestHeaders);
-    return res.end();
-  }
+//   if (method === 'OPTIONS') {
+//     res.header('Access-Control-Allow-Methods', DEFAULT_ALLOWED_METHODS);
+//     res.header('Access-Control-Allow-Headers', requestHeaders);
+//     return res.end();
+//   }
 
-  next();
-});
+//   next();
+// });
+
+app.use(
+  cors({
+    origin: allowedCors,
+    methods: DEFAULT_ALLOWED_METHODS,
+    credentials: true,
+  })
+)
 
 app.use('/', router);
 
